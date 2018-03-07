@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My.VerView</title>
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- <div id="viewportMask"></div> -->
+  <div class="top-container">
+    <div>
+      <img src="https://fs.go.iopw.com/fileserver/customforms/my.verview/images/logo.png" alt="my.verview form iopw">
+      <a href="https://my-verview.go.iopw.com/">Back to My.VerView.com</a>
+    </div>
+  </div>
+  <div class="banner-verview">
+    <div class="top-container">
+      <h2><span>GROW YOUR BUSINESS</span> WITH ONLINE REVIEWS</h2>
+      <p>Get ALL of the Benefits of Review With My.VerView</p>
+    </div>
+  </div>
+  <form action="php/submit.php" method="post" enctype="multipart/form-data">
+    <ul>
+      <li id="section-1">
+        <div class="wrapper">
+          <div class="item">
+            <span>1</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Business Name <span class="required">*</span></p>
+          <input name="business" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-2">
+        <div class="wrapper">
+          <div class="item">
+            <span>2</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Website Address <span class="required">*</span></p>
+          <input name="website" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-3">
+        <div class="wrapper">
+          <div class="item">
+            <span>3</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Email Address <span class="required">*</span></p>
+          <input name="email" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-4">
+        <div class="wrapper">
+          <div class="item">
+            <span>4</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Phone</p>
+          <input name="phone" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-5">
+        <div class="wrapper">
+          <div class="item">
+            <span>5</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Address</p>
+          <input name="address" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-6">
+        <div class="wrapper">
+          <div class="item">
+            <span>6</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Country</p>
+          <input name="country" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-7">
+        <div class="wrapper">
+          <div class="item">
+            <span>7</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Postal/Zip</p>
+          <input name="postal" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-8">
+        <div class="wrapper">
+          <div class="item">
+            <span>8</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Province</p>
+          <input name="province" type="text" />
+          <button type="button">OK</button>
+          <p class="press-enter">press <b>ENTER</b></p>
+        </div>
+      </li>
+      <li id="section-9">
+        <div class="wrapper">
+          <div class="item">
+            <span>9</span>
+            <div class="arrow"><div class="arrow-right"></div></div>
+          </div>
+          <p>Image (Logo / Banner)</p>
+          <input type="file" name="filepond[]"  multiple>
+          <button type="button">OK</button>
+        </div>
+      </li>
+      <li id="section-10" class="submit-section">
+        <div class="wrapper">
+          <div class="inner-wrapper">
+            <img src="https://fs.go.iopw.com/fileserver/customforms/my.verview/images/guru.png" alt="iopw my.verview form guru">
+            <button type="submit" name="submit">Submit</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
+  <!-- Get FilePond polyfills from the CDN -->
+  <script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
+  <!-- Get FilePond JavaScript from the CDN -->
+  <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+  <script src="js/check.js" charset="utf-8"></script>
+
+</body>
+</html>
