@@ -37,12 +37,12 @@ $(document).ready(function () {
   });
   $(window).trigger('scroll');
 
-  $("button[name='submit']").on("click", function (e) {
+  $("button[name='submit']").on("click tap touchstart", function (e) {
     e.preventDefault();
     validateForm();
   });
 
-  $("button[type='button']").on("click", function (e) {
+  $("button[type='button']").on("click tap touchstart", function (e) {
     e.preventDefault();
     var section, sectionNum = 0, yPos = 0, dec = 0.20;
     section = e.currentTarget.parentElement.parentElement.id;
