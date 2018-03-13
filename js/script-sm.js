@@ -20,6 +20,7 @@ $(document).ready(function () {
   $(".submit-section .wrapper").addClass("showSubmit");
   $("ul li").removeClass('notactive').addClass("active");
   $(".submit-section").addClass("mobile");
+  $("<div class='alert-box hidecss'><p class='alert-msg'></p></div>").appendTo(".showSubmit .inner-wrapper");
 
   $(window).on('scroll', function () {
 
@@ -37,17 +38,16 @@ $(document).ready(function () {
   });
   $(window).trigger('scroll');
 
-  $("button[name='submit']").on("click tap touchstart", function (e) {
+  $("button[name='submit']").on("click", function (e) {
     e.preventDefault();
     validateForm();
   });
 
-  $("button[type='button']").on("click tap touchstart", function (e) {
+  $("button[type='button']").on("click", function (e) {
     e.preventDefault();
     var section, sectionNum = 0, yPos = 0, dec = 0.20;
     section = e.currentTarget.parentElement.parentElement.id;
     sectionNum = parseInt(section.split('-')[1]);
-    scrollToInput(sectionNum);
   });
 
   $(window).keydown(function(event){
@@ -64,8 +64,7 @@ $(document).ready(function () {
     if (e.keyCode == 13) {
       section = e.currentTarget.parentElement.parentElement.id;
       sectionNum = parseInt(section.split('-')[1]);
-      $("#section-" + (sectionNum + 1) + " input").focus();
-      scrollToInput(sectionNum);
+      $("#section-" + (sectionNum + 1) + " .wrapper > input:first-of-type").focus();
     }
   });
 
@@ -81,7 +80,13 @@ $(document).ready(function () {
     }
 
     yPos = posArr[sectionNum] - $(window).height() * dec;
+    $("#container").css("margin-top", "-"+(yPos + 200)+"px");
     $('html, body').animate({scrollTop:yPos},'0');
+  }
+
+  function ShowDialogBox(msg) {
+      $(".alert-box").removeClass("hidecss").addClass("showcss");
+      $(".alert-box .alert-msg").html(msg);
   }
 
 
@@ -91,6 +96,7 @@ $(document).ready(function () {
   }
 
   function validateForm() {
+    $(".alert-box").removeClass("showcss").addClass("hidecss");
     var business, website, email;
     business = $("form input[name='business']");
     website = $("form input[name='website']");
@@ -99,18 +105,18 @@ $(document).ready(function () {
     // Checks is business, website and email are empty
 		if (business.val() === "" || business.val() === undefined || business.val() === null || !(/\S/.test(business.val()))) {
       business.css("border-color", "red");
-      scrollToInput(0);
+      ShowDialogBox("Make sure to feel in your Business Name.");
 		}
     else if (website.val() === "" || website.val() === undefined || website.val() === null || !(/\S/.test(website.val()))) {
       website.css("border-color", "red");
       business.css("border-color", "transparent");
-      scrollToInput(1);
+      ShowDialogBox("Make sure to enter in your Website Link.");
     }
     else if (email.val() === "" || email.val() === undefined || email.val() === null || !(/\S/.test(email.val()))) {
       email.css("border-color", "red");
       business.css("border-color", "transparent");
       website.css("border-color", "transparent");
-      scrollToInput(2);
+      ShowDialogBox("Make sure to feel in your Email Address.");
     }
     // If none empty, validate if email is an email and if yes submit form
     else {
@@ -123,7 +129,7 @@ $(document).ready(function () {
         email.css("border-color", "red");
         business.css("border-color", "transparent");
         website.css("border-color", "transparent");
-        scrollToInput(2);
+        ShowDialogBox("Make sure your Email Address is valid.");
       }
     }
   }
@@ -155,7 +161,7 @@ $(document).ready(function () {
       images: images
     };
 
-    alert('Check console for Data');
+    alert(JSON.stringify(data));
     console.log(JSON.stringify(data));
   }
 

@@ -40,6 +40,24 @@ body, html {
   padding: 0;
   font-family: Hind-Light, sans-serif;
 }
+
+.showcss {
+  opacity: 1;
+  visibility: visible;
+}
+.hidecss {
+  opacity: 0;
+  visibility: hidden;
+}
+.alert-box {
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 5px 15px;
+  height: auto;
+}
+
 .contentbuilder-contentarea > .contentbuilder-inner,
 .contentbuilder-contentarea > .contentbuilder-inner > .row {
     max-width: none;
@@ -59,7 +77,11 @@ body, html {
 .banner-verview .top-container {
   margin-bottom: 40px;
 }
-body > .top-container {
+body #container {
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+body #container > .top-container {
   margin-top: 30px;
 }
 .top-container {
@@ -142,7 +164,10 @@ ul li.notactive * {
 }
 ul li .wrapper {
   padding: 30px 20px 40px 0;
-
+}
+ul li .wrapper.showSubmit {
+  padding-left: 0;
+  padding-right: 0;
 }
 ul li .wrapper > * {
   margin-left: 50px;
@@ -262,7 +287,9 @@ ul li .wrapper > p.press-enter b {
   font-weight: normal;
 }
 ul li .wrapper > button,
-.submit-section .wrapper .inner-wrapper button {
+.submit-section .wrapper .inner-wrapper button,
+ul li .wrapper > .nextBtn,
+.submit-section .wrapper .inner-wrapper .nextBtn {
     margin-top: 10px;
     margin-bottom: 30px;
     border-radius: 3px;
@@ -283,8 +310,18 @@ ul li .wrapper > button,
     line-height: 0;
     color: #255280;
     outline: none;
+    display: inline-block;
 }
-.submit-section .wrapper .inner-wrapper button {
+ul li .wrapper > .nextBtn,
+.submit-section .wrapper .inner-wrapper .nextBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 70px;
+}
+.submit-section .wrapper .inner-wrapper button,
+.submit-section .wrapper .inner-wrapper .nextBtn {
     height: 60px;
     width: 200px;
     text-transform: uppercase;
@@ -292,12 +329,16 @@ ul li .wrapper > button,
     font-size: 2rem;
 }
 ul li .wrapper > button:hover,
-.submit-section .wrapper .inner-wrapper button:hover {
+.submit-section .wrapper .inner-wrapper button:hover,
+ul li .wrapper > .nextBtn:hover,
+.submit-section .wrapper .inner-wrapper .nextBtn:hover {
   background: #61c1eb;
 }
 ul li.active .wrapper > button,
 ul li.active .wrapper p.press-enter,
-ul li.active .wrapper .inner-wrapper > button {
+ul li.active .wrapper .inner-wrapper > button,
+ul li.active .wrapper > .nextBtn,
+ul li.active .wrapper .inner-wrapper > .nextBtn {
   opacity: 1;
 }
 .submit-section {
