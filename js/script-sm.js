@@ -15,7 +15,69 @@ $(document).ready(function () {
   /*  ------------------
       FORM FUNCTIONALITY
       ------------------  */
-  var posArr = [];
+  function getAllUrlParams(url) {
+
+    // get query string from url (optional) or window
+    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+    // we'll store the parameters here
+    var obj = {};
+
+    // if query string exists
+    if (queryString) {
+
+      // stuff after # is not part of query string, so get rid of it
+      queryString = queryString.split('#')[0];
+
+      // split our query string into its component parts
+      var arr = queryString.split('&');
+
+      for (var i=0; i<arr.length; i++) {
+        // separate the keys and the values
+        var a = arr[i].split('=');
+
+        // in case params look like: list[]=thing1&list[]=thing2
+        var paramNum = undefined;
+        var paramName = a[0].replace(/\[\d*\]/, function(v) {
+          paramNum = v.slice(1,-1);
+          return '';
+        });
+
+        // set parameter value (use 'true' if empty)
+        var paramValue = typeof(a[1])==='undefined' ? true : a[1];
+
+        // (optional) keep case consistent
+        paramName = paramName.toLowerCase();
+        paramValue = paramValue.toLowerCase();
+
+        // if parameter name already exists
+        if (obj[paramName]) {
+          // convert value to array (if still string)
+          if (typeof obj[paramName] === 'string') {
+            obj[paramName] = [obj[paramName]];
+          }
+          // if no array index number specified...
+          if (typeof paramNum === 'undefined') {
+            // put the value on the end of the array
+            obj[paramName].push(paramValue);
+          }
+          // if array index number specified...
+          else {
+            // put the value at that index number
+            obj[paramName][paramNum] = paramValue;
+          }
+        }
+        // if param name doesn't exist yet, set it
+        else {
+          obj[paramName] = paramValue;
+        }
+      }
+    }
+
+    return obj;
+  }
+
+  var posArr = [], packageType = '';
 
   $(".submit-section .wrapper").addClass("showSubmit");
   $("ul li").removeClass('notactive').addClass("active");
@@ -67,6 +129,34 @@ $(document).ready(function () {
       $("#section-" + (sectionNum + 1) + " .wrapper > input:first-of-type").focus();
     }
   });
+
+  function setPackageType() {
+    $("select[name='program-type'].mobile").css("display", "flex");
+    $("select[name='program-type'] option:selected", this).remove();
+    var url = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location.href;
+    packageType = getAllUrlParams(url).type;
+
+    switch (packageType) {
+      case 'pro':
+        $("select[name='program-type'] option[value=Pro]").attr('selected','selected');
+        packageType = "Pro";
+        break;
+      case 'enterprise':
+        $("select[name='program-type'] option[value=Enterprise]").attr('selected','selected');
+        packageType = "Enterprise";
+        break;
+      case 'custom':
+        $("select[name='program-type'] option[value=Custom]").attr('selected','selected');
+        packageType = "Custom";
+        break;
+      default:
+        $("select[name='program-type'] option[value=Essential]").attr('selected','selected');
+        packageType = "Essential";
+    }
+  }
+  setPackageType();
 
   function scrollToInput(sectionNum) {
     var yPos = 0, dec = 0.20;
@@ -135,12 +225,13 @@ $(document).ready(function () {
   }
 
   function submitForm(business, website, email) {
-    var phone, address, country, postal, province, images = [], data = {};
+    var phone, address, country, postal, province, package_type, images = [], data = {};
     phone = $("form input[name='phone']");
     address = $("form input[name='address']");
     country = $("form input[name='country']");
     postal = $("form input[name='postal']");
     province = $("form input[name='province']");
+    package_type = $("select[name='program-type']").val();
 
     $('.filepond--file-wrapper legend').each(function(i, obj) {
       var fileTitle = $(obj).html(), fileURL;
@@ -149,7 +240,7 @@ $(document).ready(function () {
       images.push(fileURL);
     });
 
-    data = {
+    data = JSON.stringify({
       business: business.val(),
       website: website.val(),
       email: email.val(),
@@ -158,11 +249,21 @@ $(document).ready(function () {
       country: country.val(),
       postal: postal.val(),
       province: province.val(),
-      images: images
-    };
+      images: images,
+      package_type: package_type
+    });
 
-    alert(JSON.stringify(data));
-    console.log(JSON.stringify(data));
+    $.ajax({
+      url: "https://fs.go.iopw.com/FileServer/customforms/my.verview/php/signup.php",
+      type: "POST",
+      data: data,
+      success: function(response) {
+        window.open("https://myverview-form.go.iopw.com/page/thank-you", "_parent");
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $(".failmsg").addClass("on");
+      }
+    });
   }
 
 });

@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_parent">
   <title>My.VerView</title>
   <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/x-icon">
-  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -16,13 +17,27 @@
     <div class="top-container">
       <div>
         <img src="https://fs.go.iopw.com/fileserver/customforms/my.verview/images/logo.png" alt="my.verview form iopw">
-        <a href="https://my-verview.go.iopw.com/">Back to My.VerView.com</a>
+        <a href="https://my-verview.go.iopw.com/" target="_parent">Back to My.VerView.com</a>
       </div>
     </div>
     <div class="banner-verview">
       <div class="top-container">
-        <h2><span>GROW YOUR BUSINESS</span> WITH ONLINE REVIEWS</h2>
-        <p>Get ALL of the Benefits of Review With My.VerView</p>
+        <h2>You've chosen the</h2>
+        <select class="program-type desktop" name="program-type">
+          <option value="Essential">Essential</option>
+          <option value="Pro">Pro</option>
+          <option value="Enterprise">Enterprise</option>
+          <option value="Custom">Custom</option>
+        </select>
+        <select class="program-type mobile" size="4" name="program-type">
+          <option value="Essential">Essential</option>
+          <option value="Pro">Pro</option>
+          <option value="Enterprise">Enterprise</option>
+          <option value="Custom">Custom</option>
+        </select>
+        <h2>package.</h2>
+        <!-- <h2><span>GROW YOUR BUSINESS</span> WITH ONLINE REVIEWS</h2>
+        <p>Get ALL of the Benefits of Review With My.VerView</p> -->
       </div>
     </div>
     <form action="php/submit.php" method="post" enctype="multipart/form-data">
@@ -134,11 +149,13 @@
             <button type="button">OK</button>
           </div>
         </li>
-        <li id="section-10" class="submit-section">
-          <div class="wrapper">
+        <li id="section-10" class="submit-section active">
+          <div class="wrapper showSubmit">
             <div class="inner-wrapper">
               <img src="https://fs.go.iopw.com/fileserver/customforms/my.verview/images/guru.png" alt="iopw my.verview form guru">
               <button type="submit" name="submit">Submit</button>
+              <span class="successmsg">Thanks! We'll get back to you very soon.</span>
+              <span class="failmsg">Hmm, something went wrong.</span>
             </div>
           </div>
         </li>
