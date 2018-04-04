@@ -195,7 +195,7 @@ $(document).ready(function () {
     // Checks is business, website and email are empty
 		if (business.val() === "" || business.val() === undefined || business.val() === null || !(/\S/.test(business.val()))) {
       business.css("border-color", "red");
-      ShowDialogBox("Make sure to feel in your Business Name.");
+      ShowDialogBox("Make sure to fill in your Business Name.");
 		}
     else if (website.val() === "" || website.val() === undefined || website.val() === null || !(/\S/.test(website.val()))) {
       website.css("border-color", "red");
@@ -206,7 +206,7 @@ $(document).ready(function () {
       email.css("border-color", "red");
       business.css("border-color", "transparent");
       website.css("border-color", "transparent");
-      ShowDialogBox("Make sure to feel in your Email Address.");
+      ShowDialogBox("Make sure to fill in your Email Address.");
     }
     // If none empty, validate if email is an email and if yes submit form
     else {
