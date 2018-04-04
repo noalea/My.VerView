@@ -32,7 +32,7 @@ $mail->Host = "smtp.iopw.com";
 $mail->From = $email;
 $mail->FromName = $business;
 
-$mail->addAddress("buckley.smith@iopw.com", "My.VerView Get Started");
+$mail->addAddress("anthony.han@iopw.com", "My.VerView Get Started");
 
 $mail->isHTML(true);
 
