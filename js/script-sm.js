@@ -12,6 +12,26 @@ $(document).ready(function () {
   // Create ponds on the page
   var pond = FilePond.create( document.querySelector('input[type="file"]') );
 
+  var locData = null;
+
+  function getLocation() {
+    $.ajax({
+      url: "https://fs.go.iopw.com/FileServer/customforms/my.verview/php/ip.php",
+      type: "GET",
+      success: function(response) {
+        // IP Block
+        var url = 'https://ipapi.co/' + JSON.parse(response) + '/json/';
+        $.getJSON(url, function(data){
+          locData = data;
+        });
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log('error getting ip');
+      }
+    });
+  }
+  getLocation();
+
   /*  ------------------
       FORM FUNCTIONALITY
       ------------------  */
@@ -96,6 +116,8 @@ $(document).ready(function () {
     posArr.push($('#section-8')[0].getBoundingClientRect().top + window.scrollY);
     posArr.push($('#section-9')[0].getBoundingClientRect().top + window.scrollY);
     posArr.push($('#section-10')[0].getBoundingClientRect().top + window.scrollY);
+    posArr.push($('#section-11')[0].getBoundingClientRect().top + window.scrollY);
+    posArr.push($('#section-12')[0].getBoundingClientRect().top + window.scrollY);
 
   });
   $(window).trigger('scroll');
@@ -187,8 +209,9 @@ $(document).ready(function () {
 
   function validateForm() {
     $(".alert-box").removeClass("showcss").addClass("hidecss");
-    var business, website, email;
+    var business, fullname, website, email;
     business = $("form input[name='business']");
+    fullname = $("form input[name='fullname']");
     website = $("form input[name='website']");
     email = $("form input[name='email']");
 
@@ -197,15 +220,22 @@ $(document).ready(function () {
       business.css("border-color", "red");
       ShowDialogBox("Make sure to fill in your Business Name.");
 		}
+    else if (fullname.val() === "" || fullname.val() === undefined || fullname.val() === null || !(/\S/.test(fullname.val()))) {
+      fullname.css("border-color", "red");
+      business.css("border-color", "transparent");
+      ShowDialogBox("Make sure to enter in your Full Name.");
+    }
     else if (website.val() === "" || website.val() === undefined || website.val() === null || !(/\S/.test(website.val()))) {
       website.css("border-color", "red");
       business.css("border-color", "transparent");
+      fullname.css("border-color", "transparent");
       ShowDialogBox("Make sure to enter in your Website Link.");
     }
     else if (email.val() === "" || email.val() === undefined || email.val() === null || !(/\S/.test(email.val()))) {
       email.css("border-color", "red");
       business.css("border-color", "transparent");
       website.css("border-color", "transparent");
+      fullname.css("border-color", "transparent");
       ShowDialogBox("Make sure to fill in your Email Address.");
     }
     // If none empty, validate if email is an email and if yes submit form
@@ -214,23 +244,26 @@ $(document).ready(function () {
         email.css("border-color", "transparent");
         business.css("border-color", "transparent");
         website.css("border-color", "transparent");
-        submitForm(business, website, email);
+        fullname.css("border-color", "transparent");
+        submitForm(business, fullname, website, email);
       } else {
         email.css("border-color", "red");
         business.css("border-color", "transparent");
         website.css("border-color", "transparent");
+        fullname.css("border-color", "transparent");
         ShowDialogBox("Make sure your Email Address is valid.");
       }
     }
   }
 
-  function submitForm(business, website, email) {
-    var phone, address, country, postal, province, package_type, images = [], data = {};
+  function submitForm(business, fullname, website, email) {
+    var phone, address, country, postal, province, hear, package_type, images = [], data = {};
     phone = $("form input[name='phone']");
     address = $("form input[name='address']");
     country = $("form input[name='country']");
     postal = $("form input[name='postal']");
     province = $("form input[name='province']");
+    hear = $("form input[name='hear']");
     package_type = $("select[name='program-type']").val();
 
     $('.filepond--file-wrapper legend').each(function(i, obj) {
@@ -242,6 +275,7 @@ $(document).ready(function () {
 
     data = JSON.stringify({
       business: business.val(),
+      fullname: fullname.val(),
       website: website.val(),
       email: email.val(),
       phone: phone.val(),
@@ -249,8 +283,10 @@ $(document).ready(function () {
       country: country.val(),
       postal: postal.val(),
       province: province.val(),
+      hear: hear.val(),
       images: images,
-      package_type: package_type
+      package_type: package_type,
+      locData: JSON.stringify(locData)
     });
 
     $.ajax({
@@ -258,7 +294,22 @@ $(document).ready(function () {
       type: "POST",
       data: data,
       success: function(response) {
+        sendAutoResponder(data);
         window.open("https://myverview-form.go.iopw.com/page/thank-you", "_parent");
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $(".failmsg").addClass("on");
+      }
+    });
+  }
+
+  function sendAutoResponder(data) {
+    $.ajax({
+      url: "https://fs.go.iopw.com/FileServer/customforms/my.verview/php/customerEmail.php",
+      type: "POST",
+      data: data,
+      success: function(response) {
+        console.log(response);
       },
       error: function(jqXHR, textStatus, errorThrown) {
         $(".failmsg").addClass("on");
